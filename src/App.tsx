@@ -1,6 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import feathers from "@feathersjs/client";
+import { SignUp } from './SignUp';
+// https://medium.com/@samsonssali/quick-feathers-react-integration-13f1cb72fdbf
 
 function App() {
   return (
@@ -19,6 +22,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <SignUp></SignUp>
     </div>
   );
 }
