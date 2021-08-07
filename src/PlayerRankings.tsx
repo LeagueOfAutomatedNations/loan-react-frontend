@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import feathersClient from "./feathers";
-import { DataGrid, GridSortModel } from "@material-ui/data-grid";
+import { DataGrid, GridColDef, GridSortModel } from "@material-ui/data-grid";
 
 export function PlayerRankings() {
   // const result = ;
@@ -9,6 +9,9 @@ export function PlayerRankings() {
   useEffect(() => {
     (async () => {
       const result = await feathersClient.service("users").find();
+      result.forEach((user: any) => {
+        user.combined = user.gcl + user.power;
+      });
       setUsers(result);
     })();
 
@@ -19,22 +22,18 @@ export function PlayerRankings() {
 
   const [sortModel, setSortModel] = React.useState<GridSortModel>([
     {
-      field: "combined",
-      sort: "desc"
-    }
+        field: "combined",
+        sort: "desc"
+      }
   ]);
 
-  const columns = [
+  const columns:GridColDef[] = [
+      // TODO: sorting does not seem to work when we use a sortModel.
     // { field: "screeps_id", headerName: "Screeps Id", flex: 1, },
-    { field: "ingame_name", headerName: "Name", flex: 1, }, // TODO: link to screeps profile?
-    { field: "gcl", headerName: "GCL", flex: 1, },
-    { field: "power", headerName: "Power", flex: 1, },
-    {
-      field: "combined",
-      headerName: "Combined",
-      flex: 1,
-      valueGetter: (params: any) => `${params.getValue(params.id, "gcl") + params.getValue(params.id, "power")}`
-    }
+    { field: "ingame_name", headerName: "Name", flex: 1/*, sortable:true*/ }, // TODO: link to screeps profile?
+    { field: "gcl", type: "number", headerName: "GCL", flex: 1 /*, sortable:true*/},
+    { field: "power", type: "number", headerName: "Power", flex: 1 /*, sortable:true*/},
+    { field: "combined", type: "number", headerName: "Combined", flex: 1/*, sortable:true*/ }
   ];
 
   return (
@@ -48,8 +47,9 @@ export function PlayerRankings() {
             columns={columns}
             pageSize={50}
             // checkboxSelection
-            disableSelectionOnClick
+            // disableSelectionOnClick
             sortModel={sortModel}
+            // onSortModelChange={(model) => setSortModel(model)}
           />
         </div>
       </div>
