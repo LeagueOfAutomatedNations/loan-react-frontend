@@ -24,6 +24,8 @@ import "@fontsource/roboto"; // https://material-ui.com/components/typography/#i
 import { Route, Switch } from "react-router-dom";
 import { SignUp } from "./SignUp";
 import { PlayerRankings } from "./PlayerRankings";
+import { PlayerMap } from "./PlayerMap";
+import { LeafletPlayerMap } from "./LeafletPlayerMap";
 // https://medium.com/@samsonssali/quick-feathers-react-integration-13f1cb72fdbf
 
 function Copyright() {
@@ -192,6 +194,7 @@ function App() {
               <Route path="/player/rankings">
                 <PlayerRankings />
               </Route>
+
               <Route path="/">
                 <>
                   This page has not been implemented
@@ -201,6 +204,8 @@ function App() {
                       <Typography>Current route: {location.pathname}</Typography>
                     )}
                   </Route>
+                  {/* <PlayerMap shard="shard0"/> */}
+                  <LeafletPlayerMap shard="shard0"/>
                 </>
               </Route>
             </Switch>
